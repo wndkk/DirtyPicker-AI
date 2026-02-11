@@ -1,0 +1,6 @@
+{
+  "package_name": "capstone_vision",
+  "non_idl_tuples": [
+    "/home/a/ros2_ws/src/capstone_vision:msg/PickTargetWorld.msg"
+  ]
+}

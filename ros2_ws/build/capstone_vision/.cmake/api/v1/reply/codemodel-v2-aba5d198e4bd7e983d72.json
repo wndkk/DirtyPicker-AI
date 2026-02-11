@@ -1,0 +1,233 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-83788afcc39a20938c77.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				},
+				{
+					"build" : "capstone_vision__py",
+					"jsonFile" : "directory-capstone_vision__py-57e87f112e6347566baa.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/a/ros2_ws/build/capstone_vision/capstone_vision__py",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "capstone_vision",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_capstone_vision_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_capstone_vision_egg-2fb787ca48ae6414d3ec.json",
+					"name" : "ament_cmake_python_build_capstone_vision_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_capstone_vision::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_capstone_vision-7f7feb0e878db265d7a6.json",
+					"name" : "ament_cmake_python_copy_capstone_vision",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision-4577505acd4dd8d68be6.json",
+					"name" : "capstone_vision",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__cpp-136c39bd2ff73403aa59.json",
+					"name" : "capstone_vision__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "capstone_vision__py::@9b747d92398a2a6053b1",
+					"jsonFile" : "target-capstone_vision__py-c0988e0be7f74bc22c2a.json",
+					"name" : "capstone_vision__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_generator_c-eff7f7983fc74ccd25a9.json",
+					"name" : "capstone_vision__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_generator_py-feda745bf20396a59a85.json",
+					"name" : "capstone_vision__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_c-b62d8c7631efe5f493fa.json",
+					"name" : "capstone_vision__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_c__pyext-c683d3c0b2e5e8faf520.json",
+					"name" : "capstone_vision__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_cpp-9cf9e313efd78d0e00ad.json",
+					"name" : "capstone_vision__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_fastrtps_c-c684883f325b12af961c.json",
+					"name" : "capstone_vision__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_fastrtps_c__pyext-354c28c4dcaf0a702800.json",
+					"name" : "capstone_vision__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_fastrtps_cpp-b6bb31f011d7c797e4a6.json",
+					"name" : "capstone_vision__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_introspection_c-09175d092606a1467b2a.json",
+					"name" : "capstone_vision__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_introspection_c__pyext-b1708a4a15434a334217.json",
+					"name" : "capstone_vision__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision__rosidl_typesupport_introspection_cpp-7857e35d1d52e33105a7.json",
+					"name" : "capstone_vision__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "capstone_vision_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-capstone_vision_uninstall-4b6f7ae97e03a05dd152.json",
+					"name" : "capstone_vision_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-be383177ca816c219e0d.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/a/ros2_ws/build/capstone_vision",
+		"source" : "/home/a/ros2_ws/src/capstone_vision"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

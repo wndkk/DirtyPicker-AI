@@ -1,0 +1,11 @@
+source;share/capstone_vision/hook/cmake_prefix_path.ps1
+source;share/capstone_vision/hook/cmake_prefix_path.dsv
+source;share/capstone_vision/hook/cmake_prefix_path.sh
+source;share/capstone_vision/hook/ld_library_path_lib.ps1
+source;share/capstone_vision/hook/ld_library_path_lib.dsv
+source;share/capstone_vision/hook/ld_library_path_lib.sh
+source;share/capstone_vision/local_setup.bash
+source;share/capstone_vision/local_setup.dsv
+source;share/capstone_vision/local_setup.ps1
+source;share/capstone_vision/local_setup.sh
+source;share/capstone_vision/local_setup.zsh

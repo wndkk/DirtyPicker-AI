@@ -1,0 +1,4 @@
+source;share/capstone_vision/local_setup.bash
+source;share/capstone_vision/local_setup.dsv
+source;share/capstone_vision/local_setup.sh
+source;share/capstone_vision/local_setup.zsh

@@ -1,0 +1,257 @@
+[0.008s] Invoking command in '/home/a/ros2_ws/build/capstone_vision': CMAKE_PREFIX_PATH=/home/a/ros2_ws/install/capstone_vision:/opt/ros/humble:${CMAKE_PREFIX_PATH} /home/a/cmake-install/bin/cmake /home/a/ros2_ws/src/capstone_vision -DCMAKE_INSTALL_PREFIX=/home/a/ros2_ws/install/capstone_vision
+[0.011s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.011s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.011s]   CMake.
+[0.011s] 
+[0.011s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.011s]   to tell CMake that the project requires at least <min> but has been updated
+[0.011s]   to work with policies introduced by <max> or earlier.
+[0.011s] 
+[0.011s] [0m
+[0.018s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.153s] -- Found rclpy: 3.3.19 (/opt/ros/humble/share/rclpy/cmake)
+[0.153s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[0.154s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.156s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.178s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.196s] -- Found builtin_interfaces: 1.2.2 (/opt/ros/humble/share/builtin_interfaces/cmake)
+[0.472s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[0.746s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.080s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.082s] [33mCMake Warning (dev) at /opt/ros/humble/share/rosidl_generator_py/cmake/rosidl_generator_py_generate_interfaces.cmake:20 (find_package):
+[1.082s]   Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+[1.082s]   are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+[1.082s]   the cmake_policy command to set the policy and suppress this warning.
+[1.082s] 
+[1.082s] Call Stack (most recent call first):
+[1.082s]   /opt/ros/humble/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake:48 (include)
+[1.082s]   /opt/ros/humble/share/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake:286 (ament_execute_extensions)
+[1.082s]   CMakeLists.txt:9 (rosidl_generate_interfaces)
+[1.082s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[1.082s] [0m
+[1.095s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6")
+[1.097s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[1.097s] [33mCMake Warning (dev) at /opt/ros/humble/share/python_cmake_module/cmake/Modules/FindPythonExtra.cmake:52 (find_package):
+[1.097s]   Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+[1.097s]   are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+[1.097s]   the cmake_policy command to set the policy and suppress this warning.
+[1.097s] 
+[1.098s] Call Stack (most recent call first):
+[1.098s]   /opt/ros/humble/share/rosidl_generator_py/cmake/rosidl_generator_py_generate_interfaces.cmake:23 (find_package)
+[1.098s]   /opt/ros/humble/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake:48 (include)
+[1.098s]   /opt/ros/humble/share/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake:286 (ament_execute_extensions)
+[1.098s]   CMakeLists.txt:9 (rosidl_generate_interfaces)
+[1.098s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[1.098s] [0m
+[1.112s] [33mCMake Warning (dev) at /opt/ros/humble/share/python_cmake_module/cmake/Modules/FindPythonExtra.cmake:140 (find_package):
+[1.112s]   Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+[1.112s]   are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+[1.113s]   the cmake_policy command to set the policy and suppress this warning.
+[1.113s] 
+[1.113s] Call Stack (most recent call first):
+[1.113s]   /opt/ros/humble/share/rosidl_generator_py/cmake/rosidl_generator_py_generate_interfaces.cmake:23 (find_package)
+[1.113s]   /opt/ros/humble/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake:48 (include)
+[1.113s]   /opt/ros/humble/share/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake:286 (ament_execute_extensions)
+[1.113s]   CMakeLists.txt:9 (rosidl_generate_interfaces)
+[1.113s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[1.113s] [0m
+[1.119s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5")
+[1.119s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[1.119s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[1.119s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[1.135s] -- Found PythonExtra: .so
+[1.179s] -- Configuring done (1.2s)
+[1.200s] -- Generating done (0.0s)
+[1.205s] -- Build files have been written to: /home/a/ros2_ws/build/capstone_vision
+[1.210s] Invoked command in '/home/a/ros2_ws/build/capstone_vision' returned '0': CMAKE_PREFIX_PATH=/home/a/ros2_ws/install/capstone_vision:/opt/ros/humble:${CMAKE_PREFIX_PATH} /home/a/cmake-install/bin/cmake /home/a/ros2_ws/src/capstone_vision -DCMAKE_INSTALL_PREFIX=/home/a/ros2_ws/install/capstone_vision
+[1.211s] Invoking command in '/home/a/ros2_ws/build/capstone_vision': CMAKE_PREFIX_PATH=/home/a/ros2_ws/install/capstone_vision:/opt/ros/humble:${CMAKE_PREFIX_PATH} /home/a/cmake-install/bin/cmake --build /home/a/ros2_ws/build/capstone_vision -- -j16 -l16
+[1.223s] [  3%] [34m[1mGenerating C code for ROS interfaces[0m
+[1.226s] [  6%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[1.228s] [  6%] Built target ament_cmake_python_copy_capstone_vision
+[1.383s] [  6%] Built target capstone_vision__cpp
+[1.386s] [  9%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[1.386s] [ 12%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[1.386s] [ 16%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[1.388s] [ 19%] [32mBuilding C object CMakeFiles/capstone_vision__rosidl_generator_c.dir/rosidl_generator_c/capstone_vision/msg/detail/pick_target_world__functions.c.o[0m
+[1.394s] running egg_info
+[1.394s] creating capstone_vision.egg-info
+[1.394s] writing capstone_vision.egg-info/PKG-INFO
+[1.395s] writing dependency_links to capstone_vision.egg-info/dependency_links.txt
+[1.395s] writing top-level names to capstone_vision.egg-info/top_level.txt
+[1.395s] writing manifest file 'capstone_vision.egg-info/SOURCES.txt'
+[1.396s] reading manifest file 'capstone_vision.egg-info/SOURCES.txt'
+[1.396s] writing manifest file 'capstone_vision.egg-info/SOURCES.txt'
+[1.411s] [ 19%] Built target ament_cmake_python_build_capstone_vision_egg
+[1.468s] [ 22%] [32m[1mLinking C shared library libcapstone_vision__rosidl_generator_c.so[0m
+[1.486s] [ 22%] Built target capstone_vision__rosidl_generator_c
+[1.490s] [ 25%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[1.490s] [ 32%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[1.490s] [ 32%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[1.542s] [ 35%] [32mBuilding CXX object CMakeFiles/capstone_vision__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/capstone_vision/msg/pick_target_world__type_support.cpp.o[0m
+[1.552s] [ 38%] [32mBuilding CXX object CMakeFiles/capstone_vision__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/capstone_vision/msg/detail/pick_target_world__type_support.cpp.o[0m
+[1.557s] [ 41%] [32mBuilding CXX object CMakeFiles/capstone_vision__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/capstone_vision/msg/detail/dds_fastrtps/pick_target_world__type_support.cpp.o[0m
+[1.656s] [ 45%] [32mBuilding CXX object CMakeFiles/capstone_vision__rosidl_typesupport_c.dir/rosidl_typesupport_c/capstone_vision/msg/pick_target_world__type_support.cpp.o[0m
+[1.671s] [ 48%] [32mBuilding C object CMakeFiles/capstone_vision__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/capstone_vision/msg/detail/pick_target_world__type_support.c.o[0m
+[1.674s] [ 51%] [32mBuilding CXX object CMakeFiles/capstone_vision__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/capstone_vision/msg/detail/pick_target_world__type_support_c.cpp.o[0m
+[1.676s] [ 54%] [32m[1mLinking CXX shared library libcapstone_vision__rosidl_typesupport_c.so[0m
+[1.695s] [ 58%] [32m[1mLinking C shared library libcapstone_vision__rosidl_typesupport_introspection_c.so[0m
+[1.698s] [ 58%] Built target capstone_vision__rosidl_typesupport_c
+[1.709s] [ 58%] Built target capstone_vision__rosidl_typesupport_introspection_c
+[1.766s] [ 61%] [32m[1mLinking CXX shared library libcapstone_vision__rosidl_typesupport_cpp.so[0m
+[1.786s] [ 61%] Built target capstone_vision__rosidl_typesupport_cpp
+[1.840s] [ 64%] [32m[1mLinking CXX shared library libcapstone_vision__rosidl_typesupport_introspection_cpp.so[0m
+[1.845s] [ 67%] [32m[1mLinking CXX shared library libcapstone_vision__rosidl_typesupport_fastrtps_cpp.so[0m
+[1.874s] [ 67%] Built target capstone_vision__rosidl_typesupport_introspection_cpp
+[1.884s] [ 70%] [32m[1mLinking CXX shared library libcapstone_vision__rosidl_typesupport_fastrtps_c.so[0m
+[1.885s] [ 70%] Built target capstone_vision__rosidl_typesupport_fastrtps_cpp
+[1.921s] [ 70%] Built target capstone_vision__rosidl_typesupport_fastrtps_c
+[1.928s] [ 70%] Built target capstone_vision
+[1.934s] [ 74%] [34m[1mGenerating Python code for ROS interfaces[0m
+[2.114s] [ 74%] Built target capstone_vision__py
+[2.121s] [ 77%] [32mBuilding C object CMakeFiles/capstone_vision__rosidl_generator_py.dir/rosidl_generator_py/capstone_vision/msg/_pick_target_world_s.c.o[0m
+[2.230s] [ 80%] [32m[1mLinking C shared library rosidl_generator_py/capstone_vision/libcapstone_vision__rosidl_generator_py.so[0m
+[2.250s] [ 80%] Built target capstone_vision__rosidl_generator_py
+[2.257s] [ 83%] [32mBuilding C object CMakeFiles/capstone_vision__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/capstone_vision/_capstone_vision_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[2.257s] [ 87%] [32mBuilding C object CMakeFiles/capstone_vision__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/capstone_vision/_capstone_vision_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[2.257s] [ 90%] [32mBuilding C object CMakeFiles/capstone_vision__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/capstone_vision/_capstone_vision_s.ep.rosidl_typesupport_c.c.o[0m
+[2.316s] [100%] [32m[1mLinking C shared library rosidl_generator_py/capstone_vision/capstone_vision_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[2.316s] [100%] [32m[1mLinking C shared library rosidl_generator_py/capstone_vision/capstone_vision_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[2.316s] [100%] [32m[1mLinking C shared library rosidl_generator_py/capstone_vision/capstone_vision_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[2.334s] [100%] Built target capstone_vision__rosidl_typesupport_introspection_c__pyext
+[2.334s] [100%] Built target capstone_vision__rosidl_typesupport_c__pyext
+[2.334s] [100%] Built target capstone_vision__rosidl_typesupport_fastrtps_c__pyext
+[2.338s] Invoked command in '/home/a/ros2_ws/build/capstone_vision' returned '0': CMAKE_PREFIX_PATH=/home/a/ros2_ws/install/capstone_vision:/opt/ros/humble:${CMAKE_PREFIX_PATH} /home/a/cmake-install/bin/cmake --build /home/a/ros2_ws/build/capstone_vision -- -j16 -l16
+[2.341s] Invoking command in '/home/a/ros2_ws/build/capstone_vision': CMAKE_PREFIX_PATH=/home/a/ros2_ws/install/capstone_vision:/opt/ros/humble:${CMAKE_PREFIX_PATH} /home/a/cmake-install/bin/cmake --install /home/a/ros2_ws/build/capstone_vision
+[2.343s] -- Install configuration: ""
+[2.343s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/ament_index/resource_index/rosidl_interfaces/capstone_vision
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/pick_target_world.h
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__type_support.h
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__struct.h
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__functions.c
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__functions.h
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/rosidl_generator_c__visibility_control.h
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/environment/library_path.sh
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/environment/library_path.dsv
+[2.344s] -- Installing: /home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_generator_c.so
+[2.344s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_generator_c.so" to ""
+[2.344s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision
+[2.344s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[2.345s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__rosidl_typesupport_fastrtps_c.h
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_fastrtps_c.so
+[2.345s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_fastrtps_c.so" to ""
+[2.345s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision
+[2.345s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg
+[2.345s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__rosidl_typesupport_introspection_c.h
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__type_support.c
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_introspection_c.so
+[2.345s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_introspection_c.so" to ""
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_c.so
+[2.345s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_c.so" to ""
+[2.345s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision
+[2.345s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg
+[2.345s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/pick_target_world.hpp
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/rosidl_generator_cpp__visibility_control.hpp
+[2.346s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__traits.hpp
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__builder.hpp
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__struct.hpp
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__type_support.hpp
+[2.346s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision
+[2.346s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg
+[2.346s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/dds_fastrtps
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__rosidl_typesupport_fastrtps_cpp.hpp
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_fastrtps_cpp.so
+[2.346s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_fastrtps_cpp.so" to ""
+[2.346s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision
+[2.346s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg
+[2.346s] -- Up-to-date: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__rosidl_typesupport_introspection_cpp.hpp
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/include/capstone_vision/capstone_vision/msg/detail/pick_target_world__type_support.cpp
+[2.346s] -- Installing: /home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_introspection_cpp.so
+[2.346s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_introspection_cpp.so" to ""
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_cpp.so
+[2.347s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_typesupport_cpp.so" to ""
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/environment/pythonpath.sh
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/environment/pythonpath.dsv
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision-0.0.0-py3.10.egg-info
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision-0.0.0-py3.10.egg-info/dependency_links.txt
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision-0.0.0-py3.10.egg-info/SOURCES.txt
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision-0.0.0-py3.10.egg-info/PKG-INFO
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision-0.0.0-py3.10.egg-info/top_level.txt
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/msg
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/msg/_pick_target_world.py
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/msg/__init__.py
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/msg/_pick_target_world_s.c
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/_capstone_vision_s.ep.rosidl_typesupport_c.c
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/__init__.py
+[2.347s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/_capstone_vision_s.ep.rosidl_typesupport_introspection_c.c
+[2.348s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/libcapstone_vision__rosidl_generator_py.so
+[2.348s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/_capstone_vision_s.ep.rosidl_typesupport_fastrtps_c.c
+[2.348s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[2.372s] Listing '/home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision'...
+[2.373s] Compiling '/home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/__init__.py'...
+[2.373s] Listing '/home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/msg'...
+[2.373s] Compiling '/home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/msg/__init__.py'...
+[2.373s] Compiling '/home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/msg/_pick_target_world.py'...
+[2.376s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[2.376s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.376s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[2.376s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.376s] -- Installing: /home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[2.376s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/local/lib/python3.10/dist-packages/capstone_vision/capstone_vision_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[2.376s] -- Installing: /home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_generator_py.so
+[2.377s] -- Set non-toolchain portion of runtime path of "/home/a/ros2_ws/install/capstone_vision/lib/libcapstone_vision__rosidl_generator_py.so" to ""
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/msg/PickTargetWorld.idl
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/msg/PickTargetWorld.msg
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/ament_index/resource_index/package_run_dependencies/capstone_vision
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/ament_index/resource_index/parent_prefix_path/capstone_vision
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/environment/ament_prefix_path.sh
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/environment/ament_prefix_path.dsv
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/environment/path.sh
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/environment/path.dsv
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/local_setup.bash
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/local_setup.sh
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/local_setup.zsh
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/local_setup.dsv
+[2.377s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/package.dsv
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/ament_index/resource_index/packages/capstone_vision
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_generator_cExport.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_generator_cExport-noconfig.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_typesupport_fastrtps_cExport.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_vision__rosidl_typesupport_introspection_cExport.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_vision__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_vision__rosidl_typesupport_cExport.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_vision__rosidl_typesupport_cExport-noconfig.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_generator_cppExport.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_typesupport_fastrtps_cppExport.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_vision__rosidl_typesupport_introspection_cppExport.cmake
+[2.378s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_vision__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_vision__rosidl_typesupport_cppExport.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_vision__rosidl_typesupport_cppExport-noconfig.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_generator_pyExport.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/export_capstone_vision__rosidl_generator_pyExport-noconfig.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/rosidl_cmake-extras.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/ament_cmake_export_libraries-extras.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/ament_cmake_export_targets-extras.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_visionConfig.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/cmake/capstone_visionConfig-version.cmake
+[2.379s] -- Installing: /home/a/ros2_ws/install/capstone_vision/share/capstone_vision/package.xml
+[2.381s] Invoked command in '/home/a/ros2_ws/build/capstone_vision' returned '0': CMAKE_PREFIX_PATH=/home/a/ros2_ws/install/capstone_vision:/opt/ros/humble:${CMAKE_PREFIX_PATH} /home/a/cmake-install/bin/cmake --install /home/a/ros2_ws/build/capstone_vision

@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "capstone_vision__py",
+		"source" : "/home/a/ros2_ws/build/capstone_vision/capstone_vision__py"
+	}
+}
