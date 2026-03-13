@@ -1,8 +1,0 @@
-setup.py
-capstone_vision/__init__.py
-capstone_vision.egg-info/PKG-INFO
-capstone_vision.egg-info/SOURCES.txt
-capstone_vision.egg-info/dependency_links.txt
-capstone_vision.egg-info/top_level.txt
-capstone_vision/msg/__init__.py
-capstone_vision/msg/_pick_target_world.py

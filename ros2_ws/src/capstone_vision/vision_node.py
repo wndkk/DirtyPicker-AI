@@ -221,8 +221,8 @@ class VisionNode(Node):
             x_mm, y_mm = uv_to_world(self.H, u, v)
 
             msg = PickTargetWorld()
-            msg.x_mm = float(x_mm)
-            msg.y_mm = float(y_mm)
+            msg.x_mm = float(x_mm/1000)  # mm -> m
+            msg.y_mm = float(y_mm/1000)  # mm -> m
             msg.label = "dirty"
             msg.locked = True
             msg.conf = float(sel.conf)
