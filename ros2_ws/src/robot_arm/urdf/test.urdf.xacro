@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_robot_arm">
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <material name="black">
+                <color rgba="0.1 0.1 0.1 1"/>
+            </material>
+            
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
+    </link>
+    
+    <link name="bottom_frame">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/bottom_frame.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 1.57"/>
+            <material name="black">
+                <color rgba="0.1 0.1 0.1 1"/>
+            </material>
+            
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/bottom_frame.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 1.57"/>
+        </collision>
+    </link>
+    <link name="link1">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/arm.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/arm.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+        </collision>
+    </link>
+    <link name="link2">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/arm.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/arm.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+        </collision>
+    </link>
+    <link name="end_effector">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/end_effector.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/end_effector.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+        </collision>
+    </link>
+    <link name="gripper_base_link">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/hand_base.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/hand_base.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+        </collision>
+    </link>
+    
+    <link name="finger_left_frame">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/finger_left_frame.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+            <material name="black">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/finger_left_frame.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+        </collision>
+    </link>
+    <link name="finger_left_link">
+            <visual>
+                <geometry>
+                    <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/finger_right.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 -1.57 -1.57"/>
+                <material name="black">
+                    <color rgba="0 0 0 1"/>
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/finger_right.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 -1.57 -1.57"/>
+            </collision>
+    </link>
+    <link name="finger_right_frame">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/finger_right_frame.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+            <material name="black">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/finger_right_frame.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+        </collision>
+    </link>
+    <link name="finger_right_link">
+        <visual>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/finger_right.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+            <material name="black">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="/home/a/robot_ws/src/robot_arm/meshes/finger_right.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57 1.57"/>
+        </collision>
+    </link>
+    <joint name="joint0" type="revolute">
+        <parent link="base_link"/>
+        <child link="bottom_frame"/>
+        <origin xyz="0.0 0.0 0.0468" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+    <joint name="joint1" type="revolute">
+        <parent link="bottom_frame"/>
+        <child link="link1"/>
+        <origin xyz="0.0 0.0 0.0347" rpy="0.0 0.0 0.0"/>
+        <axis xyz="-1 0 0"/>
+        <limit lower="-2.1012" upper="0" effort="1.0" velocity="1.0"/>
+    </joint>
+    <joint name="joint2" type="revolute">
+        <parent link="link1"/>
+        <child link="link2"/>
+        <origin xyz="0.0 0.15 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+    <joint name="joint3" type="revolute">
+        <parent link="link2"/>
+        <child link="end_effector"/>
+        <origin xyz="0.0 0.15 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+    <joint name="gripper_joint" type="fixed">
+        <parent link="end_effector"/>
+        <child link="gripper_base_link"/>
+        <origin xyz="0.0 0.03 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <joint name="gripper_left_joint" type="revolute">
+        <parent link="gripper_base_link"/>
+        <child link="finger_left_frame"/>
+        <origin xyz="0.012 0.024 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-1.57" upper="0.0" effort="1.0" velocity="1.0"/>
+    </joint>
+    <joint name="gripper_left_hand" type="revolute">
+        <parent link="finger_left_frame"/>
+        <child link="finger_left_link"/>
+        <origin xyz="-0.009 0.03 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+        <mimic joint="gripper_left_joint" multiplier="-1" offset="0"/>
+        <limit lower="0.0" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+    <joint name="gripper_right_joint" type="revolute">
+        <parent link="gripper_base_link"/>
+        <child link="finger_right_frame"/>
+        <origin xyz="-0.012 0.024 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+        <mimic joint="gripper_left_joint" multiplier="-1" offset="0"/>
+        <limit lower="0.0" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+    <joint name="gripper_right_hand" type="revolute">
+        <parent link="finger_right_frame"/>
+        <child link="finger_right_link"/>
+        <origin xyz="0.009 0.03 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+        <mimic joint="gripper_right_joint" multiplier="-1" offset="0"/>
+        <limit lower="-1.57" upper="0.0" effort="1.0" velocity="1.0"/>
+    </joint>
+</robot>
