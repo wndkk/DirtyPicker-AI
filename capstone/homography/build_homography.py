@@ -4,8 +4,8 @@ import pickle
 import os
 
 # ===================== 사용자 설정 =====================
-CALIB_FILE = "/home/a/Documents/capstone/webcam2_calibration_1280x720_25mm.pkl"
-CAM_INDEX = 0
+CALIB_FILE = "/home/a/DirtyPicker-AI/capstone/webcam2_calibration_1280x720_25mm.pkl"
+CAM_INDEX = 1
 CAP_W, CAP_H = 1280, 720
 
 # 마커 중심 간 거리(mm) (TL<->TR, TL<->BL)
@@ -19,7 +19,7 @@ HALF = MARKER_SIZE_MM / 2.0
 ID_TL, ID_TR, ID_BR, ID_BL = 0, 1, 2, 3
 
 # 저장 경로
-SAVE_H_PATH = os.path.expanduser("~/Documents/capstone/calib/homography_aruco.npy")
+SAVE_H_PATH = os.path.expanduser("/home/a/DirtyPicker-AI/capstone/calib/homography_aruco.npy")
 
 # H 안정화(연속 OK 프레임 수)
 H_OK_NEED = 10

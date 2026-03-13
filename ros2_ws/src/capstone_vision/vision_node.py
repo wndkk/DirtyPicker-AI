@@ -10,10 +10,10 @@ from ultralytics import YOLO
 from capstone_vision.msg import PickTargetWorld
 
 # ===================== 설정 =====================
-MODEL_PATH = "/home/a/runs/detect/train/weights/best.pt"
-H_PATH = os.path.expanduser("/home/a/Documents/capstone/calib/homography_aruco.npy")
+MODEL_PATH = "/home/a/DirtyPicker-AI/model/best.pt"
+H_PATH = os.path.expanduser("/home/a/DirtyPicker-AI/capstone/calib/homography_aruco.npy")
 
-CAM_INDEX = 0
+CAM_INDEX = 1
 CAP_W, CAP_H = 1280, 720
 
 CONF_THRES = 0.25
@@ -221,8 +221,8 @@ class VisionNode(Node):
             x_mm, y_mm = uv_to_world(self.H, u, v)
 
             msg = PickTargetWorld()
-            msg.x_mm = float(x_mm/1000)  # mm -> m
-            msg.y_mm = float(y_mm/1000)  # mm -> m
+            msg.x = float(x_mm/1000)  # mm -> m
+            msg.y = float(y_mm/1000)  # mm -> m
             msg.label = "dirty"
             msg.locked = True
             msg.conf = float(sel.conf)
