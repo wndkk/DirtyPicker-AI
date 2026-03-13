@@ -40,12 +40,13 @@ class IkCalc(Node):
         self.target_x = msg.x
         self.target_y = msg.y
 
-        self.get_logger().info(f"target: x={self.target_x:.3f} m, y={self.target_y:.3f} m")
+        # self.get_logger().info(f"target: x={self.target_x:.3f} m, y={self.target_y:.3f} m")
 
     def tracking_loop(self):
 
         if self.target_x is not None and self.target_y is not None:
             temp_r = math.sqrt(self.target_x**2 + self.target_y**2)
+            # self.get_logger().info("================================")
             self.get_logger().info(f"target distance: {temp_r:.3f} m")
             if not temp_r < 0.45:
                 self.get_logger().warn("목적지가 너무 멀리 있습니다. 무시합니다.")
@@ -71,7 +72,7 @@ class IkCalc(Node):
 
         for i, joint_name in enumerate(['joint0', 'joint1', 'joint2', 'joint3']):
             if not (joint_limits[joint_name][0] <= joint_angles[i] <= joint_limits[joint_name][1]):
-                self.get_logger().error(f'{joint_name}의 각도가 범위를 벗어났습니다: {joint_angles[i]:.4f} rad')
+                # self.get_logger().error(f'{joint_name}의 각도가 범위를 벗어났습니다: {joint_angles[i]:.4f} rad')
 
                 return False
         return True
@@ -91,7 +92,7 @@ class IkCalc(Node):
         cos_theta2 = (D_square - self.L1**2 - self.L2**2) / (2 * self.L1 * self.L2)
 
         if abs(cos_theta2) >= 1:
-            self.get_logger().error('범위를 벗어난 위치입니다.')
+            # self.get_logger().error('범위를 벗어난 위치입니다.')
             return None
         
         theta2 = math.acos(cos_theta2)
