@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from capstone_vision.msg import PickTargetWorld
 
 import math
 import time
