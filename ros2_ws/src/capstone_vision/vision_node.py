@@ -228,7 +228,16 @@ class VisionNode(Node):
             msg.conf = float(sel.conf)
             msg.stamp = self.get_clock().now().to_msg()
             self.pub.publish(msg)
-
+        else:
+            # LOCKED가 아니면 잠금 해제 메시지 publish
+            msg = PickTargetWorld()
+            msg.x = None
+            msg.y = None
+            msg.label = ""
+            msg.locked = False
+            msg.conf = -1.0
+            msg.stamp = self.get_clock().now().to_msg()
+            self.pub.publish(msg)
         # debug view (optional)
         if SHOW_DEBUG:
             for d in dets:

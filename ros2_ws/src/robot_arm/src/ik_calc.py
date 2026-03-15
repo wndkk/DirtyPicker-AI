@@ -13,54 +13,77 @@ class IkCalc(Node):
         super().__init__('ik_calc_node')
         self.get_logger().info("IK 계산 노드가 시작되었습니다.")
         # 2. 로봇을 움직일 컨트롤러 토픽 퍼블리셔 생성
-        self.traj_pub = self.create_publisher(JointTrajectory, '/manipulator_controller/joint_trajectory', 10)
+        self.traj_pub = self.create_publisher(JointTrajectory, '/joint_trajectory_controller/joint_trajectory', 10)
         self.vision_sub = self.create_subscription(PickTargetWorld, '/pick_target_world', self.vision_callback, 10)
 
         self.L1 = 0.15
         self.L2 = 0.15
         self.L3 = 0.156
+        self.y_offset = 0.12
         self.z_offset = 0.0815
 
         self.saves_poses = {
-            'home' : [0.0, -2.1012, 1.5708, 1.5708, 0.0]
+            'home' : [0.0, -2.1012, 1.5708, 1.5708, -1.0]
         }
 
         self.target_x = None
         self.target_y = None
-        self.target_z = 0.12
+        self.target_z = 0.13
 
-        self.timer = self.create_timer(0.1, self.tracking_loop)
+        self.temp_x = 0.0
+        self.temp_y = 0.0
+
+        self.ik_result = None
+        self.is_target_detected = False
+
+        self.timer = self.create_timer(0.5, self.tracking_loop)
 
     def vision_callback(self, msg):
 
+        if msg.conf == -1.0:
+            self.get_logger().warn("No Target Detected. Ignoring message.")
+            self.is_target_detected = False
+            return
         if not msg.locked or msg.conf < 0.3:
             self.get_logger().warn("confidence is low or not locked. Ignoring target.")
+            self.is_target_detected = False
             return
         
-        self.target_x = msg.x
-        self.target_y = msg.y
-
+        self.target_x = -msg.x
+        self.target_y = msg.y + self.y_offset
+        self.is_target_detected = True
+        
         # self.get_logger().info(f"target: x={self.target_x:.3f} m, y={self.target_y:.3f} m")
 
     def tracking_loop(self):
 
-        if self.target_x is not None and self.target_y is not None:
-            temp_r = math.sqrt(self.target_x**2 + self.target_y**2)
-            # self.get_logger().info("================================")
-            self.get_logger().info(f"target distance: {temp_r:.3f} m")
-            if not temp_r < 0.45:
-                self.get_logger().warn("목적지가 너무 멀리 있습니다. 무시합니다.")
-                return
-             
-            ik_result = self.auto_pitch_calc(self.target_x, self.target_y, self.target_z, gripper_opening=-1.5)
+        if self.is_target_detected:
+            if abs(self.target_x - self.temp_x) < 0.01 and abs(self.target_y - self.temp_y) < 0.01:
 
-            if ik_result is not None:
+                self.ik_result = self.auto_pitch_calc(self.target_x, self.target_y, self.target_z, gripper_opening=0.0)
+                
+            else:
 
-                self.publish_trajectory(ik_result, 0.5)
+
+                temp_r = math.sqrt(self.target_x**2 + self.target_y**2)
+                # self.get_logger().info("================================")
+                self.get_logger().info(f"target distance: {temp_r:.3f} m")
+                if not temp_r < 0.4:
+                    self.get_logger().warn("목적지가 너무 멀리 있습니다. 무시합니다.")
+                    return
+                
+                self.ik_result = self.auto_pitch_calc(self.target_x, self.target_y, self.target_z, gripper_opening=-1.2)
+
+            self.temp_x = self.target_x
+            self.temp_y = self.target_y
+
+            if self.ik_result is not None:
+
+                self.publish_trajectory(self.ik_result, 1)
         
         else:
             self.get_logger().info("Not target anything. Waiting... home")
-            self.publish_trajectory(self.saves_poses['home'], 0.5)
+            self.publish_trajectory(self.saves_poses['home'], 1)
 
     def check_joint_limits(self, joint_angles):
         joint_limits = {
@@ -120,7 +143,7 @@ class IkCalc(Node):
             self.get_logger().error('유효한 IK 솔루션이 없습니다.')
             return None
         
-        valid_solutions.sort(key=lambda item: abs(item[0] - 70))
+        valid_solutions.sort(key=lambda item: abs(item[0] - 60))
 
         best_pitch, best_result = valid_solutions[0] 
         best_result.append(gripper_opening)

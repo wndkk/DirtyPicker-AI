@@ -79,7 +79,7 @@ class FKTFCompare(Node):
         
         y = (self.length1 * (math.cos(theta1) + math.cos(theta2)) + self.length2 * math.cos(theta3)) * math.cos(theta0)
         x = (self.length1 * (math.cos(theta1) + math.cos(theta2)) + self.length2 * math.cos(theta3)) * math.sin(theta0)
-        z = self.z_offset - self.length1 * (math.sin(theta1) + math.sin(theta2)) - self.length2 * math.sin(theta3)
+        z = self.z_offset + self.length1 * (-math.sin(theta1) - math.sin(theta2)) - self.length2 * math.sin(theta3)
 
         return (x, y, z)
 
