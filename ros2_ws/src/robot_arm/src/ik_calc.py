@@ -4,7 +4,7 @@ from rclpy.node import Node
 
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from capstone_vision.msg import PickTargetWorld
-
+from geometry_msgs.msg import Point
 import math
 import time
 
@@ -15,28 +15,34 @@ class IkCalc(Node):
         # 2. 로봇을 움직일 컨트롤러 토픽 퍼블리셔 생성
         self.traj_pub = self.create_publisher(JointTrajectory, '/joint_trajectory_controller/joint_trajectory', 10)
         self.vision_sub = self.create_subscription(PickTargetWorld, '/pick_target_world', self.vision_callback, 10)
-
+        self.fk_position_sub = self.create_subscription(Point, '/fk_position', self.fk_position_callback, 10)
         self.L1 = 0.15
         self.L2 = 0.15
         self.L3 = 0.156
         self.y_offset = 0.12
         self.z_offset = 0.0815
 
+        self.gripper_opening = -0.8
+
         self.saves_poses = {
-            'home' : [0.0, -2.1012, 1.5708, 1.5708, -1.0]
+            'home' : [0.0, -2.1012, 1.5708, 1.5708, self.gripper_opening]
         }
 
         self.target_x = None
         self.target_y = None
-        self.target_z = 0.13
+        self.target_z = 0.08
 
-        self.temp_x = 0.0
-        self.temp_y = 0.0
+        self.present_x = 0.0
+        self.present_y = 0.0
 
         self.ik_result = None
         self.is_target_detected = False
 
-        self.timer = self.create_timer(0.5, self.tracking_loop)
+        self.timer = self.create_timer(1, self.tracking_loop)
+
+    def fk_position_callback(self, msg):
+        self.present_x = msg.x
+        self.present_y = msg.y
 
     def vision_callback(self, msg):
 
@@ -58,9 +64,12 @@ class IkCalc(Node):
     def tracking_loop(self):
 
         if self.is_target_detected:
-            if abs(self.target_x - self.temp_x) < 0.01 and abs(self.target_y - self.temp_y) < 0.01:
+            if abs(self.target_x - self.present_x) < 0.03 and abs(self.target_y - self.present_y) < 0.03:
+                
+                self.gripper_opening = 0.0
 
-                self.ik_result = self.auto_pitch_calc(self.target_x, self.target_y, self.target_z, gripper_opening=0.0)
+                self.saves_poses['home'][-1] = self.gripper_opening
+                self.ik_result = self.auto_pitch_calc(self.target_x, self.target_y, self.target_z, gripper_opening=self.gripper_opening)
                 
             else:
 
@@ -71,8 +80,8 @@ class IkCalc(Node):
                 if not temp_r < 0.4:
                     self.get_logger().warn("목적지가 너무 멀리 있습니다. 무시합니다.")
                     return
-                
-                self.ik_result = self.auto_pitch_calc(self.target_x, self.target_y, self.target_z, gripper_opening=-1.2)
+                self.gripper_opening = -1.4
+                self.ik_result = self.auto_pitch_calc(self.target_x, self.target_y, self.target_z, gripper_opening=self.gripper_opening)
 
             self.temp_x = self.target_x
             self.temp_y = self.target_y
@@ -80,11 +89,11 @@ class IkCalc(Node):
             if self.ik_result is not None:
 
                 self.publish_trajectory(self.ik_result, 1)
-        
+                # return
         else:
             self.get_logger().info("Not target anything. Waiting... home")
             self.publish_trajectory(self.saves_poses['home'], 1)
-
+            # return
     def check_joint_limits(self, joint_angles):
         joint_limits = {
             'joint0': (-1.5708, 1.5708),

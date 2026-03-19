@@ -3,6 +3,8 @@ import rclpy
 import math
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
+from geometry_msgs.msg import Point
+from capstone_vision.msg import PickTargetWorld
 
 # TF2 관련 라이브러리 추가
 from tf2_ros import TransformException
@@ -19,7 +21,13 @@ class FKTFCompare(Node):
             self.callback, 
             10
         )
-
+        self.pick_sub = self.create_subscription(
+            PickTargetWorld,
+            '/pick_target_world',
+            self.vision_callback,
+            10
+        )
+        self.fk_publisher = self.create_publisher(Point, '/fk_position', 10)
         # TF2 버퍼와 리스너 초기화 (ROS 내부의 실제 좌표값을 듣기 위함)
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
@@ -28,6 +36,25 @@ class FKTFCompare(Node):
         self.length1 = 0.15
         self.length2 = 0.156
         self.z_offset = 0.0815
+
+        self.pick_x = None
+        self.pick_y = None
+
+        self.create_timer(0.1, self.position_callback)
+
+        self.position = None
+
+    def vision_callback(self, msg):
+        
+        self.pick_x = -msg.x
+        self.pick_y = msg.y + 0.12  # y_offset
+    def position_callback(self):
+        msg = Point()
+        if self.position is not None:
+            msg.x = self.position[0]
+            msg.y = self.position[1]
+            msg.z = self.position[2]
+        self.fk_publisher.publish(msg)
 
     def callback(self, msg):
         # 1. 조인트 인덱스 찾기
@@ -45,7 +72,7 @@ class FKTFCompare(Node):
         q3 = msg.position[idx_q3]
 
         # 2. 내 수식으로 계산한 FK (Math FK)
-        my_x, my_y, my_z = self.fk_calculation(q0, q1, q2, q3)
+        self.position = self.fk_calculation(q0, q1, q2, q3)
 
         # 3. ROS가 계산한 실제 좌표 (TF2) 가져오기
         try:
@@ -62,9 +89,9 @@ class FKTFCompare(Node):
 
             # 4. 결과 나란히 출력하여 비교
             self.get_logger().info(
-                f"조인트 각도 (rad): q0: {q0:.4f}, q1: {q1:.4f}, q2: {q2:.4f}, q3: {q3:.4f}\n"
-                f"\n[Math] X: {my_x: .4f}, Y: {my_y: .4f}, Z: {my_z: .4f}\n"
-                f"[TF2]  X: {tf_x: .4f}, Y: {tf_y: .4f}, Z: {tf_z: .4f}\n"
+                f"조인트 각도 (rad): q0: {q0:.3f}, q1: {q1:.3f}, q2: {q2:.3f}, q3: {q3:.3f}\n"
+                f"[Math] X: {self.position[0]: .5f}, Y: {self.position[1]: .5f}, Z: {self.position[2]: .5f}\n"
+                f"[Pick Target]  X: {self.pick_x: .5f}, Y: {self.pick_y: .5f}\n"
                 f"------------------------------------------------"
             )
 
