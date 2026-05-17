@@ -7,13 +7,13 @@ from dataclasses import dataclass
 import rclpy
 from rclpy.node import Node
 from ultralytics import YOLO
-from capstone_vision.msg import PickTargetWorld
+from dirtyai_interfaces.msg import PickTargetWorld
 
 # ===================== 설정 =====================
-MODEL_PATH = "/home/a/DirtyPicker-AI/model/best.pt"
+MODEL_PATH = "/home/a/DirtyPicker-AI/model/0507best.pt"
 H_PATH = os.path.expanduser("/home/a/DirtyPicker-AI/capstone/calib/homography_aruco.npy")
 
-CAM_INDEX = 1
+CAM_INDEX = 0
 CAP_W, CAP_H = 1280, 720
 
 CONF_THRES = 0.25
@@ -231,8 +231,8 @@ class VisionNode(Node):
         else:
             # LOCKED가 아니면 잠금 해제 메시지 publish
             msg = PickTargetWorld()
-            msg.x = None
-            msg.y = None
+            msg.x = 0.0
+            msg.y = 0.0
             msg.label = ""
             msg.locked = False
             msg.conf = -1.0

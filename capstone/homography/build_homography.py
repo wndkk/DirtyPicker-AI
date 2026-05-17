@@ -5,7 +5,7 @@ import os
 
 # ===================== 사용자 설정 =====================
 CALIB_FILE = "/home/a/DirtyPicker-AI/capstone/webcam2_calibration_1280x720_25mm.pkl"
-CAM_INDEX = 1
+CAM_INDEX = 0
 CAP_W, CAP_H = 1280, 720
 
 # 마커 중심 간 거리(mm) (TL<->TR, TL<->BL)

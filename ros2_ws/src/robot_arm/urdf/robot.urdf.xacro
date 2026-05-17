@@ -251,9 +251,7 @@
         <xacro:unless value="$(arg use_fake_hardware)">
             <plugin>dynamixel_hardware_interface/DynamixelHardware</plugin>
             <param name="port_name">/dev/ttyUSB0</param>
-            <param name="baud_rate">1000000</param>
-            <param name="use_dummy">false</param>
-            <param name="protocol_version">1.0</param>
+            <param name="baud_rate">115200</param>
             
             <param name="dynamixel_model_folder">/param/dxl_model</param>
 
@@ -261,8 +259,11 @@
             
             <param name="number_of_joints">5</param>
             <param name="number_of_transmissions">5</param>
-
-            <param name="disable_torque_at_init">true</param>
+            <param name="dynamixel_state_pub_msg_name">dynamixel_hardware_interface/dxl_state</param>
+            <param name="get_dynamixel_data_srv_name">dynamixel_hardware_interface/get_dxl_data</param>
+            <param name="set_dynamixel_data_srv_name">dynamixel_hardware_interface/set_dxl_data</param>
+            <param name="reboot_dxl_srv_name">dynamixel_hardware_interface/reboot_dxl</param>
+            <param name="set_dxl_torque_srv_name">dynamixel_hardware_interface/set_dxl_torque</param>
         </xacro:unless>
     </hardware>
 

@@ -23,7 +23,9 @@ install(DIRECTORY
 
 install(PROGRAMS
   src/fk_calc.py
-  src/ik_calc.py
+  src/ik_controller.py
+  src/task_planner.py
+  src/tof_receiver.py
   DESTINATION lib/${PROJECT_NAME}
 )
 if(BUILD_TESTING)

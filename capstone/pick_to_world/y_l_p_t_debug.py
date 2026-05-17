@@ -5,8 +5,8 @@ from ultralytics import YOLO
 import os
 from dataclasses import dataclass
 
-MODEL_PATH = "/home/a/runs/detect/train/weights/best.pt"
-H_PATH = os.path.expanduser("/home/a/Documents/capstone/calib/homography_aruco.npy")
+MODEL_PATH = "/home/a/DirtyPicker-AI/model/0507best.pt"
+H_PATH = os.path.expanduser("/home/a/DirtyPicker-AI/capstone/calib/homography_aruco.npy")
 
 CAM_INDEX = 0
 CAP_W, CAP_H = 1280, 720
