@@ -133,7 +133,7 @@ class IkCalc(Node):
             self.get_logger().error('유효한 IK 솔루션이 없습니다.')
             return None
         
-        valid_solutions.sort(key=lambda item: abs(item[0] - 60))
+        valid_solutions.sort(key=lambda item: abs(item[0] - 70))
 
         best_pitch, best_result = valid_solutions[0] 
         best_result.append(gripper_opening)

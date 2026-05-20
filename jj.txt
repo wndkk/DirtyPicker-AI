@@ -5,6 +5,6 @@ ros2 run capstone_vision vision_node.py
 
 ros2 launch robot_arm dynamixel_control.launch.py 
 
-ros2 run robot_arm task_planner.py
 ros2 run robot_arm tof_receiver.py
 ros2 run robot_arm ik_controller.py
+ros2 run robot_arm task_planner.py
