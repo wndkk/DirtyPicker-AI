@@ -61,8 +61,10 @@ class TaskPlanner(Node):
         # Flags
         # =========================
         self.calc_done = False
+        self.ik_failed = False
+        self.ik_fail_count = 0
+        self.ik_fail_required = 3
         self.command_sent = False
-
         # =========================
         # JointState 기반 정지 판단
         # =========================
@@ -186,6 +188,8 @@ class TaskPlanner(Node):
         self.state_start_time = self.get_clock().now()
 
         self.command_sent = False
+        self.ik_failed = False
+        self.ik_fail_count = 0
         self.reset_joint_stability()
 
         self.get_logger().info(f"[상태 전환] ---> {new_state.name}")
@@ -204,6 +208,35 @@ class TaskPlanner(Node):
     def calc_done_callback(self, msg):
         self.calc_done = msg.data
 
+        if msg.data:
+            self.ik_fail_count = 0
+            self.ik_failed = False
+            return
+
+    # False가 와도 바로 홈으로 보내지 않음
+    # 실제 이동 IK가 필요한 상태에서만 실패 카운트
+        if self.state in (
+            RobotState.MOVING_TO_APPROACH,
+            RobotState.MOVING_TO_TARGET,
+            RobotState.MOVING_TO_DROP,
+        ):
+            self.ik_fail_count += 1
+            self.get_logger().warn(
+                f"IK 실패 신호 수신: {self.ik_fail_count}/{self.ik_fail_required}"
+        )
+
+            if self.ik_fail_count >= self.ik_fail_required:
+                self.get_logger().warn("IK 실패 연속 발생. 홈 복귀.")
+                self.ik_failed = True
+        if msg.data is False:
+            if self.state in (
+                RobotState.MOVING_TO_APPROACH,
+                RobotState.MOVING_TO_TARGET,
+                RobotState.LOWERING_AND_TOF,
+                RobotState.MOVING_TO_DROP,
+        ):
+                self.get_logger().warn("IK 계산 실패 신호 수신. 홈 복귀.")
+                self.ik_failed = True
     def tof_callback(self, msg):
         self.tof_distance = msg.data
 
@@ -270,7 +303,10 @@ class TaskPlanner(Node):
 
         if self.state == RobotState.IDLE:
             return
-
+        if self.ik_failed:
+            self.get_logger().warn("IK 실패로 인해 현재 동작 취소. 홈 복귀.")
+            self.change_state(RobotState.HOMING)
+            return
         # --------------------------------------------------
         # 1. 접근 위치로 이동
         # --------------------------------------------------
