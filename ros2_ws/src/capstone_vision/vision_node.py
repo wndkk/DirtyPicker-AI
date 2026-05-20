@@ -26,7 +26,7 @@ MIN_IOU = 0.05
 
 Y_OFFSET_RATIO = 0.15
 PUBLISH_HZ = 30.0
-
+PICK_START_U = 400
 # 디버그 창 띄울지 (서버/헤드리스면 False)
 SHOW_DEBUG = True
 # ==============================================
@@ -213,12 +213,49 @@ class VisionNode(Node):
                 cls_name = names.get(cls_id, str(cls_id))
                 dets.append(Det(xyxy=xyxy, conf=conf, cls_id=cls_id, cls_name=cls_name))
 
-        sel, debug = self.locker.update(dets)
+        #sel, debug = self.locker.update(dets)
+        ##수정x좌표 540 이상인 dirty만 lock 대상으로 사용
+        pickable_dets = []
+
+        for d in dets:
+            if d.cls_name != DIRTY_CLASS_NAME:
+                continue
+
+            u_pick, v_pick = pick_point_from_box(d.xyxy, Y_OFFSET_RATIO)
+
+            if u_pick >= PICK_START_U:
+                pickable_dets.append(d)
+
+        sel, debug = self.locker.update(pickable_dets)
+
 
         # ✅ publish rule: LOCKED일 때만 publish
+        #if self.locker.state == State.LOCKED and sel is not None:
+         #   u, v = pick_point_from_box(sel.xyxy, Y_OFFSET_RATIO)
+          #  x_mm, y_mm = uv_to_world(self.H, u, v)
+
+
         if self.locker.state == State.LOCKED and sel is not None:
             u, v = pick_point_from_box(sel.xyxy, Y_OFFSET_RATIO)
+
+            if u < PICK_START_U:
+                self.get_logger().warn(
+                    f"작업 영역 밖 lock 해제: u={u:.1f}"
+                )
+                self.locker.reset()
+
+                msg = PickTargetWorld()
+                msg.x = 0.0
+                msg.y = 0.0
+                msg.label = ""
+                msg.locked = False
+                msg.conf = -1.0
+                msg.stamp = self.get_clock().now().to_msg()
+                self.pub.publish(msg)
+                return
+
             x_mm, y_mm = uv_to_world(self.H, u, v)
+
 
             msg = PickTargetWorld()
             msg.x = float(x_mm/1000)  # mm -> m
@@ -259,6 +296,25 @@ class VisionNode(Node):
                         cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 255, 255), 2)
             cv2.putText(frame, debug, (10, 60),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+
+            
+            
+            cv2.line(
+                frame,
+                (PICK_START_U, 0),
+                (PICK_START_U, frame.shape[0]),
+                (0, 0, 255),
+                2
+            )
+            cv2.putText(
+                frame,
+                "PICK AREA START",
+                (PICK_START_U + 10, 90),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (0, 0, 255),
+                2
+            )
 
             cv2.imshow("YOLO LOCK -> WORLD (ROS2)", frame)
             key = cv2.waitKey(1) & 0xFF
