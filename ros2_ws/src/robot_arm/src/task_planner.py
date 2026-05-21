@@ -14,9 +14,10 @@ class RobotState(Enum):
     MOVING_TO_TARGET = 3
     LOWERING_AND_TOF = 4
     GRASPING = 5
-    MOVING_TO_DROP = 6
-    RELEASING = 7
-    HOMING = 8
+    LIFTING_AFTER_GRASP = 6
+    MOVING_TO_DROP = 7
+    RELEASING = 8
+    HOMING = 9
 
 
 class TaskPlanner(Node):
@@ -33,6 +34,10 @@ class TaskPlanner(Node):
         self.target_x = 0.0
         self.target_y = 0.0
 
+        # 잡는 순간 좌표 고정용
+        self.grasp_x = None
+        self.grasp_y = None
+
         self.pick_z = 0.02
         self.target_z_min = 0.02
 
@@ -40,49 +45,34 @@ class TaskPlanner(Node):
         self.approach_z = self.pick_z + self.approach_height
         self.target_z = self.pick_z
 
+        # 잡은 뒤 상승 높이
+        self.lift_after_grasp_z = 0.18
+
         self.x_offset = 0.002
-        self.y_offset = 0.34
+        self.y_offset = 0.324
 
         # =========================
         # Conveyor Tracking 설정
         # =========================
-        # 컨베이어 속도:
-        # 5초 동안 5.5cm 이동
-        # 55mm / 5s = 11mm/s = 0.011m/s
         self.conveyor_speed_m_s = 0.015
 
-        # 컨베이어 이동 방향
-        # x축 +방향이면 axis="x", sign=1.0
-        # x축 -방향이면 axis="x", sign=-1.0
-        # y축 +방향이면 axis="y", sign=1.0
-        # y축 -방향이면 axis="y", sign=-1.0
         self.conveyor_axis = "x"
         self.conveyor_sign = 1.0
 
-        # 트래킹 명령 publish 주기
-        # 0.50초 = 2Hz
-        # 너무 자주 보내면 IK controller가 새 명령을 무시하거나 끊길 수 있음
         self.tracking_publish_period = 0.30
         self.last_tracking_pub_time = None
 
-        # 좌표 튐 완화용 필터
-        # 값이 크면 빠르게 따라가고, 작으면 더 부드러움
         self.tracking_alpha = 0.60
         self.smooth_x = None
         self.smooth_y = None
 
-        # 미래 위치 예측 시간
-        # 물체보다 뒤를 잡으면 값을 키우고,
-        # 너무 앞을 잡으면 값을 줄이면 됨
-        self.approach_lead_time = 5.0
-        self.pick_lead_time = 4.0
-        self.tof_lead_time = 3.5
+        self.approach_lead_time = 5.1
+        self.pick_lead_time = 3.7
+        self.tof_lead_time = 3.7
 
-        # 각 상태에서 트래킹 유지 시간
-        self.approach_track_time = 3.0
-        self.target_track_time = 2.0
+        self.approach_track_time = 4.0
+        self.target_track_time = 2.5
 
-        # 최신 vision 좌표 저장용
         self.latest_raw_x = None
         self.latest_raw_y = None
         self.latest_vision_time = None
@@ -98,7 +88,7 @@ class TaskPlanner(Node):
         # =========================
         self.drop_x = -0.21316
         self.drop_y = 0.07049
-        self.drop_z = 0.1
+        self.drop_z = 0.18
 
         # =========================
         # Flags
@@ -125,6 +115,12 @@ class TaskPlanner(Node):
         # =========================
         self.grasp_wait_time = 1.5
         self.release_wait_time = 1.3
+
+        # =========================
+        # Z 상승 대기 시간
+        # =========================
+        self.lift_wait_time = 1.8
+        self.lift_timeout = 3.5
 
         # =========================
         # LOWERING_AND_TOF 대기 시간
@@ -238,21 +234,11 @@ class TaskPlanner(Node):
         self.last_tracking_pub_time = None
 
     def update_raw_target(self, msg):
-        """
-        YOLO 좌표를 로봇 좌표계로 변환해서 최신 좌표로 저장.
-        기존 코드의 변환식 유지:
-        target_x = -msg.x + x_offset
-        target_y = -msg.y + y_offset
-        """
         self.latest_raw_x = -msg.x + self.x_offset
         self.latest_raw_y = -msg.y + self.y_offset
         self.latest_vision_time = self.get_clock().now()
 
     def predict_target(self, lead_time):
-        """
-        최신 YOLO 좌표에서 컨베이어 이동량만큼 앞쪽 좌표 예측.
-        단위는 m.
-        """
         if self.latest_raw_x is None or self.latest_raw_y is None:
             return self.target_x, self.target_y
 
@@ -276,9 +262,6 @@ class TaskPlanner(Node):
         return pred_x, pred_y
 
     def smooth_target(self, x, y):
-        """
-        좌표가 튀는 것을 줄이기 위한 low-pass filter.
-        """
         if self.smooth_x is None or self.smooth_y is None:
             self.smooth_x = x
             self.smooth_y = y
@@ -293,10 +276,6 @@ class TaskPlanner(Node):
         return self.target_x, self.target_y
 
     def tracking_pub(self, z, gripper_val, pose_cmd, move_time, lead_time):
-        """
-        트래킹 상태에서 반복 publish.
-        pub_once()를 쓰면 한 번만 보내므로 tracking이 안 됨.
-        """
         now = self.get_clock().now()
 
         if self.last_tracking_pub_time is not None:
@@ -330,6 +309,19 @@ class TaskPlanner(Node):
     # State
     # ======================================================
     def change_state(self, new_state):
+        # 잡는 상태로 들어가는 순간 현재 좌표 고정
+        if new_state == RobotState.GRASPING:
+            self.grasp_x = self.target_x
+            self.grasp_y = self.target_y
+            self.get_logger().info(
+                f"Grasp 좌표 고정: x={self.grasp_x:.3f}, y={self.grasp_y:.3f}"
+            )
+
+        # IDLE 복귀 시 고정 좌표 초기화
+        if new_state == RobotState.IDLE:
+            self.grasp_x = None
+            self.grasp_y = None
+
         self.state = new_state
         self.state_start_time = self.get_clock().now()
 
@@ -350,6 +342,7 @@ class TaskPlanner(Node):
         if new_state in (
             RobotState.MOVING_TO_APPROACH,
             RobotState.MOVING_TO_TARGET,
+            RobotState.LIFTING_AFTER_GRASP,
             RobotState.MOVING_TO_DROP,
             RobotState.HOMING,
         ):
@@ -366,12 +359,11 @@ class TaskPlanner(Node):
             self.ik_failed = False
             return
 
-        # False가 와도 바로 홈 복귀하지 않음.
-        # 트래킹 중에는 명령이 자주 갱신되므로 연속 실패만 처리.
         if self.state in (
             RobotState.MOVING_TO_APPROACH,
             RobotState.MOVING_TO_TARGET,
             RobotState.LOWERING_AND_TOF,
+            RobotState.LIFTING_AFTER_GRASP,
             RobotState.MOVING_TO_DROP,
         ):
             self.ik_fail_count += 1
@@ -390,7 +382,17 @@ class TaskPlanner(Node):
         if msg.conf < 0.3 or not msg.locked:
             return
 
-        # IDLE이 아니어도 tracking 중에는 최신 좌표 계속 저장
+        # 잡은 이후에는 비전 좌표 갱신하지 않음
+        if self.state in (
+            RobotState.GRASPING,
+            RobotState.LIFTING_AFTER_GRASP,
+            RobotState.MOVING_TO_DROP,
+            RobotState.RELEASING,
+            RobotState.HOMING,
+        ):
+            return
+
+        # IDLE 또는 tracking 중에는 최신 좌표 계속 저장
         if self.state in (
             RobotState.IDLE,
             RobotState.MOVING_TO_APPROACH,
@@ -512,7 +514,6 @@ class TaskPlanner(Node):
 
         # --------------------------------------------------
         # 3. TOF 확인 상태
-        # z는 0.02 그대로 유지하면서 짧게 XY tracking
         # --------------------------------------------------
         elif self.state == RobotState.LOWERING_AND_TOF:
             self.tracking_pub(
@@ -541,9 +542,13 @@ class TaskPlanner(Node):
         # 4. 그리퍼 닫기
         # --------------------------------------------------
         elif self.state == RobotState.GRASPING:
+            if self.grasp_x is None or self.grasp_y is None:
+                self.grasp_x = self.target_x
+                self.grasp_y = self.target_y
+
             self.pub_once(
-                self.target_x,
-                self.target_y,
+                self.grasp_x,
+                self.grasp_y,
                 self.pick_z,
                 1.4,
                 0,
@@ -551,11 +556,43 @@ class TaskPlanner(Node):
             )
 
             if state_elapsed > self.grasp_wait_time:
-                self.get_logger().info("그리퍼 닫기 완료. 드롭 위치로 이동.")
-                self.change_state(RobotState.MOVING_TO_DROP)
+                self.get_logger().info("그리퍼 닫기 완료. 잡은 좌표에서 Z축 상승.")
+                self.change_state(RobotState.LIFTING_AFTER_GRASP)
 
         # --------------------------------------------------
-        # 5. 드롭 위치로 이동
+        # 5. 잡은 뒤 같은 XY에서 z=0.18로 상승
+        # --------------------------------------------------
+        elif self.state == RobotState.LIFTING_AFTER_GRASP:
+            if self.grasp_x is None or self.grasp_y is None:
+                self.grasp_x = self.target_x
+                self.grasp_y = self.target_y
+
+            self.pub_once(
+                self.grasp_x,
+                self.grasp_y,
+                self.lift_after_grasp_z,
+                1.4,
+                0,
+                2
+            )
+
+            # 최소 상승 시간 확보
+            if state_elapsed < self.lift_wait_time:
+                return
+
+            if self.move_finished():
+                self.get_logger().info("Z축 상승 완료. 드롭 위치로 이동.")
+                self.change_state(RobotState.MOVING_TO_DROP)
+                return
+
+            if state_elapsed > self.lift_timeout:
+                self.get_logger().warn("Z축 상승 완료 신호 timeout. 드롭 위치로 이동.")
+                self.change_state(RobotState.MOVING_TO_DROP)
+                return
+
+        # --------------------------------------------------
+        # 6. 드롭 위치로 이동
+        # z=0.18 높이 유지
         # --------------------------------------------------
         elif self.state == RobotState.MOVING_TO_DROP:
             self.pub_once(
@@ -564,7 +601,7 @@ class TaskPlanner(Node):
                 self.drop_z,
                 1.4,
                 0,
-                1
+                2
             )
 
             if self.move_finished():
@@ -572,7 +609,7 @@ class TaskPlanner(Node):
                 self.change_state(RobotState.RELEASING)
 
         # --------------------------------------------------
-        # 6. 그리퍼 열기
+        # 7. 그리퍼 열기
         # --------------------------------------------------
         elif self.state == RobotState.RELEASING:
             self.pub_once(
@@ -589,7 +626,7 @@ class TaskPlanner(Node):
                 self.change_state(RobotState.HOMING)
 
         # --------------------------------------------------
-        # 7. 홈 복귀
+        # 8. 홈 복귀
         # --------------------------------------------------
         elif self.state == RobotState.HOMING:
             self.pub_once(
@@ -598,7 +635,7 @@ class TaskPlanner(Node):
                 self.target_z,
                 0.05,
                 1,
-                1.5
+                1
             )
 
             if self.move_finished():

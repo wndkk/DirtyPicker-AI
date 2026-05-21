@@ -26,7 +26,7 @@ MIN_IOU = 0.05
 
 Y_OFFSET_RATIO = 0.15
 PUBLISH_HZ = 30.0
-PICK_START_U = 400
+PICK_START_U = 500
 # 디버그 창 띄울지 (서버/헤드리스면 False)
 SHOW_DEBUG = True
 # ==============================================
