@@ -573,7 +573,7 @@ class TaskPlanner(Node):
                 self.lift_after_grasp_z,
                 1.4,
                 0,
-                2
+                1.3
             )
 
             # 최소 상승 시간 확보
@@ -635,7 +635,7 @@ class TaskPlanner(Node):
                 self.target_z,
                 0.05,
                 1,
-                1
+                1.5
             )
 
             if self.move_finished():
