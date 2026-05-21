@@ -40,8 +40,8 @@ class TaskPlanner(Node):
         self.approach_z = self.pick_z + self.approach_height
         self.target_z = self.pick_z
 
-        self.x_offset = 0.035
-        self.y_offset = 0.31
+        self.x_offset = 0.002
+        self.y_offset = 0.34
 
         # =========================
         # Conveyor Tracking 설정
@@ -49,7 +49,7 @@ class TaskPlanner(Node):
         # 컨베이어 속도:
         # 5초 동안 5.5cm 이동
         # 55mm / 5s = 11mm/s = 0.011m/s
-        self.conveyor_speed_m_s = 0.011
+        self.conveyor_speed_m_s = 0.015
 
         # 컨베이어 이동 방향
         # x축 +방향이면 axis="x", sign=1.0
@@ -62,25 +62,25 @@ class TaskPlanner(Node):
         # 트래킹 명령 publish 주기
         # 0.50초 = 2Hz
         # 너무 자주 보내면 IK controller가 새 명령을 무시하거나 끊길 수 있음
-        self.tracking_publish_period = 0.20
+        self.tracking_publish_period = 0.30
         self.last_tracking_pub_time = None
 
         # 좌표 튐 완화용 필터
         # 값이 크면 빠르게 따라가고, 작으면 더 부드러움
-        self.tracking_alpha = 0.7
+        self.tracking_alpha = 0.60
         self.smooth_x = None
         self.smooth_y = None
 
         # 미래 위치 예측 시간
         # 물체보다 뒤를 잡으면 값을 키우고,
         # 너무 앞을 잡으면 값을 줄이면 됨
-        self.approach_lead_time = 4.5
-        self.pick_lead_time = 3.0
-        self.tof_lead_time = 2.0
+        self.approach_lead_time = 5.0
+        self.pick_lead_time = 4.0
+        self.tof_lead_time = 3.5
 
         # 각 상태에서 트래킹 유지 시간
-        self.approach_track_time = 5.0
-        self.target_track_time = 4.0
+        self.approach_track_time = 3.0
+        self.target_track_time = 2.0
 
         # 최신 vision 좌표 저장용
         self.latest_raw_x = None
@@ -598,7 +598,7 @@ class TaskPlanner(Node):
                 self.target_z,
                 0.05,
                 1,
-                1
+                1.5
             )
 
             if self.move_finished():

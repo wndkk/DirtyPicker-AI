@@ -59,8 +59,10 @@ def iou_xyxy(a, b):
 
 def pick_point_from_box(xyxy, y_offset_ratio=0.15):
     x1, y1, x2, y2 = xyxy
+
     u = (x1 + x2) / 2.0
-    v = y2 - (y2 - y1) * y_offset_ratio
+    v = (y1 + y2) / 2.0
+
     return float(u), float(v)
 
 
