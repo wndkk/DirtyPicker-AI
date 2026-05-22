@@ -66,12 +66,12 @@ class TaskPlanner(Node):
         self.smooth_x = None
         self.smooth_y = None
 
-        self.approach_lead_time = 5.1
-        self.pick_lead_time = 3.7
-        self.tof_lead_time = 3.7
+        self.approach_lead_time = 4.8
+        self.pick_lead_time = 3.5
+        self.tof_lead_time = 3.5
 
         self.approach_track_time = 4.0
-        self.target_track_time = 2.5
+        self.target_track_time = 3.0
 
         self.latest_raw_x = None
         self.latest_raw_y = None
