@@ -1,5 +1,8 @@
 DirtyPicker-AI/capstone/homography$ 
 
+로봇팔 완전 법거벅벅 일때
+ㄴ ros2 launch robot_arm dynamixel_control.launch.py 이거 켜준 터미널에서 명령어 실행하기 전에
+ㄴ source ~/.bashrc 하고 권한 비밀번호 입력하라 하면 하고 그 뒤에 마지막 줄에 1 뜨는거 보면 됨
 
 ros2 run capstone_vision vision_node.py 
 
