@@ -2,7 +2,6 @@
 import os
 import cv2
 import numpy as np
-import time
 from dataclasses import dataclass
 
 import rclpy
@@ -28,7 +27,6 @@ MIN_IOU = 0.05
 Y_OFFSET_RATIO = 0.15
 PUBLISH_HZ = 30.0
 PICK_START_U = 500
-
 # 디버그 창 띄울지 (서버/헤드리스면 False)
 SHOW_DEBUG = True
 # ==============================================
@@ -46,19 +44,15 @@ def xyxy_to_xywh(xyxy):
 def iou_xyxy(a, b):
     ax1, ay1, ax2, ay2 = a
     bx1, by1, bx2, by2 = b
-
     inter_x1 = max(ax1, bx1)
     inter_y1 = max(ay1, by1)
     inter_x2 = min(ax2, bx2)
     inter_y2 = min(ay2, by2)
-
     iw = max(0, inter_x2 - inter_x1)
     ih = max(0, inter_y2 - inter_y1)
     inter = iw * ih
-
     area_a = max(0, (ax2 - ax1)) * max(0, (ay2 - ay1))
     area_b = max(0, (bx2 - bx1)) * max(0, (by2 - by1))
-
     union = area_a + area_b - inter + 1e-9
     return inter / union
 
@@ -109,95 +103,71 @@ class Locker:
 
     def choose_best_dirty(self, dets):
         best, best_score = None, -1
-
         for d in dets:
             if d.cls_name != DIRTY_CLASS_NAME:
                 continue
-
             x1, y1, x2, y2 = d.xyxy
             area = (x2 - x1) * (y2 - y1)
             score = d.conf + 1e-6 * area
-
             if score > best_score:
                 best_score = score
                 best = d
-
         return best
 
     def match_ref(self, dets, ref_xyxy):
         ref_cx, ref_cy, _, _ = xyxy_to_xywh(ref_xyxy)
         best, best_score = None, -1
-
         for d in dets:
             if d.cls_name != DIRTY_CLASS_NAME:
                 continue
-
             cx, cy, _, _ = xyxy_to_xywh(d.xyxy)
             dist = np.hypot(cx - ref_cx, cy - ref_cy)
-
             if dist > MAX_CENTER_DIST:
                 continue
-
             iou = iou_xyxy(d.xyxy, ref_xyxy)
-
             if iou < MIN_IOU:
                 continue
-
             dist_score = max(0.0, 1.0 - dist / MAX_CENTER_DIST)
             score = 1.2 * iou + 0.8 * dist_score + 0.2 * d.conf
-
             if score > best_score:
                 best_score = score
                 best = d
-
         return best
 
     def update(self, dets):
         if self.state == State.SEARCH:
             best = self.choose_best_dirty(dets)
-
             if best is None:
                 return None, "SEARCH: no dirty"
-
             self.cand = best
             self.cnt = 1
             self.state = State.CONFIRM
-
             return best, f"SEARCH->CONFIRM (1/{N_CONFIRM})"
 
         if self.state == State.CONFIRM:
             m = self.match_ref(dets, self.cand.xyxy) if self.cand is not None else None
-
             if m is None:
                 self.reset()
                 return None, "CONFIRM broken -> SEARCH"
-
             self.cand = m
             self.cnt += 1
-
             if self.cnt >= N_CONFIRM:
                 self.lock = m
                 self.state = State.LOCKED
                 self.miss = 0
                 return m, "CONFIRM->LOCKED ✅"
-
             return m, f"CONFIRM {self.cnt}/{N_CONFIRM}"
 
         if self.state == State.LOCKED:
             m = self.match_ref(dets, self.lock.xyxy) if self.lock is not None else None
-
             if m is None:
                 self.miss += 1
-
                 if self.miss > M_MISS:
                     self.reset()
                     return None, "LOCKED lost -> SEARCH"
-
                 return self.lock, f"LOCKED miss {self.miss}/{M_MISS}"
-
             self.lock = m
             self.miss = 0
-
             return m, "LOCKED tracking"
 
         return None, "Unknown"
@@ -223,96 +193,30 @@ class VisionNode(Node):
 
         self.timer = self.create_timer(1.0 / PUBLISH_HZ, self.tick)
 
-        # 성능 측정용 변수
-        self.inference_times_ms = []
-        self.no_detection_start_time = None
-        self.frame_count = 0
-
         if SHOW_DEBUG:
             cv2.namedWindow("YOLO LOCK -> WORLD (ROS2)")
 
-    def publish_unlocked(self):
-        msg = PickTargetWorld()
-        msg.x = 0.0
-        msg.y = 0.0
-        msg.label = ""
-        msg.locked = False
-        msg.conf = -1.0
-        msg.stamp = self.get_clock().now().to_msg()
-        self.pub.publish(msg)
-
     def tick(self):
         ret, frame = self.cap.read()
-
         if not ret:
             return
 
-        # ================= YOLO inference time measurement =================
-        start_time = time.perf_counter()
-
+        # YOLO inference
         results = self.model.predict(frame, conf=CONF_THRES, verbose=False)
-
-        end_time = time.perf_counter()
-        detect_time_ms = (end_time - start_time) * 1000.0
-        # ==================================================================
-
-        self.frame_count += 1
-        self.inference_times_ms.append(detect_time_ms)
-
         r0 = results[0]
         names = r0.names
 
-        has_detection = r0.boxes is not None and len(r0.boxes) > 0
-
-        # 객체가 안 잡히는 구간 시작 시간 기록
-        if not has_detection:
-            if self.no_detection_start_time is None:
-                self.no_detection_start_time = time.perf_counter()
-
-        # 객체가 처음 잡힌 순간, 미검출 구간 시간을 출력
-        else:
-            if self.no_detection_start_time is not None:
-                detection_delay_ms = (
-                    time.perf_counter() - self.no_detection_start_time
-                ) * 1000.0
-
-                self.get_logger().info(
-                    f"First detection delay: {detection_delay_ms:.2f} ms"
-                )
-
-                self.no_detection_start_time = None
-
-        # 30프레임마다 평균 YOLO 추론 시간 출력
-        if self.frame_count % 30 == 0:
-            avg_inference_ms = sum(self.inference_times_ms) / len(self.inference_times_ms)
-
-            self.get_logger().info(
-                f"[AVG] YOLO inference time: {avg_inference_ms:.2f} ms"
-            )
-
         dets = []
-
-        if has_detection:
-        ##    self.get_logger().info(
-        ##        f"YOLO inference time: {detect_time_ms:.2f} ms"
-        ##    )
-
+        if r0.boxes is not None and len(r0.boxes) > 0:
             for b in r0.boxes:
                 xyxy = b.xyxy[0].cpu().numpy().astype(float)
                 conf = float(b.conf[0].cpu().numpy())
                 cls_id = int(b.cls[0].cpu().numpy())
                 cls_name = names.get(cls_id, str(cls_id))
+                dets.append(Det(xyxy=xyxy, conf=conf, cls_id=cls_id, cls_name=cls_name))
 
-                dets.append(
-                    Det(
-                        xyxy=xyxy,
-                        conf=conf,
-                        cls_id=cls_id,
-                        cls_name=cls_name
-                    )
-                )
-
-        # x좌표 PICK_START_U 이상인 dirty만 lock 대상으로 사용
+        #sel, debug = self.locker.update(dets)
+        ##수정x좌표 540 이상인 dirty만 lock 대상으로 사용
         pickable_dets = []
 
         for d in dets:
@@ -326,7 +230,13 @@ class VisionNode(Node):
 
         sel, debug = self.locker.update(pickable_dets)
 
-        # LOCKED일 때만 publish
+
+        # ✅ publish rule: LOCKED일 때만 publish
+        #if self.locker.state == State.LOCKED and sel is not None:
+         #   u, v = pick_point_from_box(sel.xyxy, Y_OFFSET_RATIO)
+          #  x_mm, y_mm = uv_to_world(self.H, u, v)
+
+
         if self.locker.state == State.LOCKED and sel is not None:
             u, v = pick_point_from_box(sel.xyxy, Y_OFFSET_RATIO)
 
@@ -335,33 +245,39 @@ class VisionNode(Node):
                     f"작업 영역 밖 lock 해제: u={u:.1f}"
                 )
                 self.locker.reset()
-                self.publish_unlocked()
+
+                msg = PickTargetWorld()
+                msg.x = 0.0
+                msg.y = 0.0
+                msg.label = ""
+                msg.locked = False
+                msg.conf = -1.0
+                msg.stamp = self.get_clock().now().to_msg()
+                self.pub.publish(msg)
                 return
 
-            try:
-                x_mm, y_mm = uv_to_world(self.H, u, v)
-            except Exception as e:
-                self.get_logger().error(
-                    f"uv_to_world 변환 실패: u={u:.1f}, v={v:.1f}, error={e}"
-                )
-                self.locker.reset()
-                self.publish_unlocked()
-                return
+            x_mm, y_mm = uv_to_world(self.H, u, v)
+
 
             msg = PickTargetWorld()
-            msg.x = float(x_mm / 1000.0)  # mm -> m
-            msg.y = float(y_mm / 1000.0)  # mm -> m
+            msg.x = float(x_mm/1000)  # mm -> m
+            msg.y = float(y_mm/1000)  # mm -> m
             msg.label = "dirty"
             msg.locked = True
             msg.conf = float(sel.conf)
             msg.stamp = self.get_clock().now().to_msg()
             self.pub.publish(msg)
-
         else:
             # LOCKED가 아니면 잠금 해제 메시지 publish
-            self.publish_unlocked()
-
-        # debug view
+            msg = PickTargetWorld()
+            msg.x = 0.0
+            msg.y = 0.0
+            msg.label = ""
+            msg.locked = False
+            msg.conf = -1.0
+            msg.stamp = self.get_clock().now().to_msg()
+            self.pub.publish(msg)
+        # debug view (optional)
         if SHOW_DEBUG:
             for d in dets:
                 x1, y1, x2, y2 = d.xyxy.astype(int)
@@ -374,41 +290,17 @@ class VisionNode(Node):
 
                 u, v = pick_point_from_box(sel.xyxy, Y_OFFSET_RATIO)
                 cv2.circle(frame, (int(u), int(v)), 6, (0, 0, 255), -1)
+                Xw, Yw = uv_to_world(self.H, u, v)
+                cv2.putText(frame, f"World XY=({Xw:.1f},{Yw:.1f}) mm",
+                            (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
-                try:
-                    Xw, Yw = uv_to_world(self.H, u, v)
-                    cv2.putText(
-                        frame,
-                        f"World XY=({Xw:.1f},{Yw:.1f}) mm",
-                        (10, 120),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.7,
-                        (255, 255, 255),
-                        2
-                    )
-                except Exception:
-                    pass
+            cv2.putText(frame, f"STATE: {self.locker.state}", (10, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 255, 255), 2)
+            cv2.putText(frame, debug, (10, 60),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
-            cv2.putText(
-                frame,
-                f"STATE: {self.locker.state}",
-                (10, 30),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.9,
-                (255, 255, 255),
-                2
-            )
-
-            cv2.putText(
-                frame,
-                debug,
-                (10, 60),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.7,
-                (255, 255, 255),
-                2
-            )
-
+            
+            
             cv2.line(
                 frame,
                 (PICK_START_U, 0),
@@ -416,7 +308,6 @@ class VisionNode(Node):
                 (0, 0, 255),
                 2
             )
-
             cv2.putText(
                 frame,
                 "PICK AREA START",
@@ -429,7 +320,6 @@ class VisionNode(Node):
 
             cv2.imshow("YOLO LOCK -> WORLD (ROS2)", frame)
             key = cv2.waitKey(1) & 0xFF
-
             if key in [ord("q"), 27]:
                 rclpy.shutdown()
 
@@ -437,26 +327,21 @@ class VisionNode(Node):
         try:
             if self.cap is not None:
                 self.cap.release()
-
             if SHOW_DEBUG:
                 cv2.destroyAllWindows()
-
         except Exception:
             pass
-
         super().destroy_node()
 
 
 def main():
     rclpy.init()
     node = VisionNode()
-
-    try:
-        rclpy.spin(node)
-    finally:
-        node.destroy_node()
-        rclpy.shutdown()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
 
 
 if __name__ == "__main__":
     main()
+

@@ -49,12 +49,12 @@ class TaskPlanner(Node):
         self.lift_after_grasp_z = 0.18
 
         self.x_offset = 0.002
-        self.y_offset = 0.324
+        self.y_offset = 0.34
 
         # =========================
         # Conveyor Tracking 설정
         # =========================
-        self.conveyor_speed_m_s = 0.015
+        self.conveyor_speed_m_s = 0.016
 
         self.conveyor_axis = "x"
         self.conveyor_sign = 1.0
